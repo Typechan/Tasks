@@ -1,0 +1,107 @@
+#include <iostream>
+#include <cmath>
+#include<ctime>
+
+using namespace std;
+
+int N, n, k=1, i, j=0, half, m=0;
+bool odd;
+int** matrix;
+
+void plusRow(int *j){
+        while(*j<N){
+            matrix[i][*j]=k;
+            k++;
+            *j+=1;
+        }
+        *j-=1;
+    }
+    void minusColumn(int *i){
+         while(*i>=0+m){
+            matrix[*i][j]=k;
+            k++;
+            *i-=1;
+        }
+        *i+=1;
+    }
+    void minusRow(int *j){
+         while(*j>=0){
+            matrix[i][*j]=k;
+            k++;
+            *j-=1;
+        }
+        *j+=1;
+    }
+    void plusColumn(int *i){
+        while(*i<N){
+            matrix[*i][j]=k;
+            k++;
+            *i+=1;
+        }
+        *i-=1;
+    }
+    
+    void doMagicOpposite(int *i, int *j);
+    void doMagic(int *i, int *j){
+        plusRow(j);
+        k--;
+        minusColumn(i);
+        k--;
+        minusRow(j);
+        N--;
+        m++;
+        if(odd&&(N-1==half)){
+            *i+=1;
+            plusRow(j);
+            return;
+        }
+        if(N<half){
+            return;
+        }
+        *i+=1;
+        doMagicOpposite(i, j);
+    }
+    
+    void doMagicOpposite(int *i, int *j){
+        plusRow(j);
+        k--;
+        plusColumn(i);
+        k--;
+        minusRow(j);
+        N--;
+        m++;
+        if(odd&&(N-1==half)){
+            *i-=1;
+            plusRow(j);
+            return;
+        }
+        if(N<half){
+            return;
+        }
+        *i-=1;
+        doMagic(i, j);
+    }
+
+int main()
+{
+
+    cin >> N;
+    odd=(N%2==1);
+    half=N/2;
+    n=N;
+    i=N-1;
+    matrix = new int*[N]; 
+    for (int i1 = 0; i1 < N; i1++){ 
+        matrix[i1] = new int[N];
+    }
+    
+    doMagic(&i,&j);
+    
+    for(int i1=0; i1<n;i1++){
+        for(int j1=0; j1<n; j1++){
+            cout<<matrix[i1][j1]<<"  ";
+        }
+        cout<<"\n";
+    }
+    return 0;
+}
